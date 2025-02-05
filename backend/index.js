@@ -3,15 +3,14 @@ const { Pool } = require("pg"); // PostgreSQL client
 
 // Create a PostgreSQL pool to manage database connections
 const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "userdata",
-  password: "pks2933v",
-  port: 5432,
+  connectionString: process.env.DATABASE_URL,  // Use Heroku DATABASE_URL environment variable
+  ssl: {
+    rejectUnauthorized: false  // Ensure the SSL connection works for Heroku PostgreSQL
+  }
 });
 
-// Initialize Socket.IO
-const io = new Server(5000, {
+// Initialize Socket.IO on dynamic port
+const io = new Server(process.env.PORT || 5000, {
   cors: true,
 });
 
